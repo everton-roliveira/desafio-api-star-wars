@@ -1,0 +1,40 @@
+{
+  "name": "desafio-api-star-wars",
+  "version": "1.0.0",
+  "description": "Desafio de contruir uma API REST, para cadastro de planetas star wars",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/everton-roliveira/desafio-api-star-wars.git"
+  },
+  "keywords": [
+    "api",
+    "star wars",
+    "api rest",
+    "desafio"
+  ],
+  "author": {
+    "name": "Everton Roberto de Oliveira",
+    "email": "everton_roliveira@outlook.com",
+    "url": "https://www.linkedin.com/in/evertonrobertodeoliveira/"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/everton-roliveira/desafio-api-star-wars/issues"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "guid": "0.0.12",
+    "jsonwebtoken": "^8.5.1",
+    "md5": "^2.2.1",
+    "mongo": "^0.1.0",
+    "mongoose": "^5.5.5"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.11"
+  }
+}
