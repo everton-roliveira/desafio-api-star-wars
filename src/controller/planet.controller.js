@@ -1,6 +1,7 @@
 'use strict';
 const repository = require('../repository/planet.repository');
 const ValidationContract = require('../validators/fluent-validator');
+const request = require('request-promise');
 
 exports.get = async (request = new Request(), response = new Response(), next) => {
     try {
@@ -14,6 +15,9 @@ exports.get = async (request = new Request(), response = new Response(), next) =
 exports.getById = async (request = new Request(), response = new Response(), next) => {
     try {
         let data = await repository.getById(request.params.id);
+        if (data) {
+            data = await getIntegration(data);
+        }
         response.status(200).send(data);
     } catch (error) {
         response.status(500).send(errorCatch(error));
@@ -114,4 +118,31 @@ function errorCatch(error) {
 
     return response;
 
+}
+
+async function getIntegration(planet) {
+    let data = {
+        name: planet.name,
+        climate: planet.climate,
+        terrain: planet.terrain,
+        population: null,
+        films: 0
+    };
+
+    const options = {
+        header: {
+            'Content-Type': 'application/json'
+        }
+    };
+
+    await request.get(`https://swapi.co/api/planets?search=${planet.name}`, options, (err, response, body) => {
+        if (!err && response.statusCode == 200) {
+            let bodyJson = JSON.parse(body);
+            if (bodyJson.count > 0) {
+                data.population = bodyJson.results[0].population;
+                data.films = bodyJson.results[0].films != null ? bodyJson.results[0].films.length : 0;
+            }
+        }
+    });
+    return data;
 }
