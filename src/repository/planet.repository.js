@@ -7,54 +7,34 @@ exports.create = async (data) => {
     return await planet.save();
 };
 
-exports.getAll = async (page) => {
-    let perPage = 5;
-    let query = {};
+exports.update = async (id, data) => {
+    return await Planet.findByIdAndUpdate(id, {
+        $set: {
+            name: data.name,
+            climate: data.climate,
+            terrain: data.terrain
+        }
+    });
+};
 
-    query.skip = size * (pageNo - 1);
-    query.limit = size;
-
-    Planet.count({}, (err,totalCount) => {
-        P
-    })
-    let planets = await Planet.find({})
-        .skip((perPage * page) - perPage)
-        .limit(perPage)
-    const data = {
-        current: page,
-        planets: planets
-    }
-    return data;
+exports.getAll = async () => {
+    return await Planet.find();
 };
 
 exports.getById = async (id) => {
     return await Planet.findOne({ _id: id });
 };
 
-// exports.getByName = async (name) => {
-//     return await Planet.findOne({ name: name });
-// }
+exports.getAleatory = async () => {
+    let resultCount = await Planet.countDocuments();
+    let rand = await Math.floor(Math.random() * resultCount);
+    return await Planet.findOne().limit(-1).skip(rand);
+};
 
-// exports.delete = async (id) => {
-//     await Planet.findByIdAndDelete({ _id: id });
-// };
+exports.getByName = async (name) => {
+    return await Planet.find({ name: { '$regex': `${name}`, '$options': 'i' } })
+}
 
-
-// router.get('/products/:page', (req, res, next) => {
-//     var perPage = 9 
-//     var page = req.params.page || 1
-
-//     Product.find({})
-//         .skip((perPage * page) - perPage)
-//         .limit(perPage)
-//         .exec((err, products) => {
-//             Product.count().exec((err, count) => {
-//                 if (err) return next(err)
-//                 res.render('main/products', {
-//                     products: products,
-//                     current: page,
-//                     pages: Math.ceil(count / perPage)
-//                 });
-//             });
-//         });
-// });
+exports.delete = async (id) => {
+    await Planet.findByIdAndDelete({ _id: id });
+};
