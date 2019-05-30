@@ -30,4 +30,3 @@ function getPort(env) {
             return process.env.PORT_DEVELOPMENT;
     }
 }
-// DATABASE_URL_DEVELOPMENT=mongodb://localhost:27017/db_dev_star_wars
